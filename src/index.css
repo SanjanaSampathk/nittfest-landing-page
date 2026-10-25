@@ -1,0 +1,469 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens -> Tailwind utilities
+   Each concept swaps the --t-* variables; utilities below resolve live.
+------------------------------------------------------------------- */
+@theme inline {
+  --color-bg: var(--t-bg);
+  --color-bg-2: var(--t-bg-2);
+  --color-primary: var(--t-primary);
+  --color-secondary: var(--t-secondary);
+  --color-accent: var(--t-accent);
+  --color-ink: var(--t-ink);
+  --color-muted: var(--t-muted);
+
+  --font-display: var(--t-font-display);
+  --font-body: var(--t-font-body);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 46s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-spin-slow: spin 60s linear infinite;
+  --animate-spin-slower: spin 120s linear infinite reverse;
+  --animate-pulse-soft: pulse-soft 3.2s ease-in-out infinite;
+  --animate-ember: ember 7s ease-in infinite;
+  --animate-twinkle: twinkle 2.4s ease-in-out infinite;
+  --animate-grid: gridmove 2.2s linear infinite;
+  --animate-scan: scan 9s linear infinite;
+  --animate-bob: bob 2.4s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.8s linear infinite;
+  --animate-confetti: confetti 9s linear infinite;
+  --animate-ticker: ticker 1.2s steps(2) infinite;
+}
+
+/* ------------------------------------------------------------------
+   Concept 1 — NEON NOCTURNE (default)
+------------------------------------------------------------------- */
+:root,
+[data-theme="neon"] {
+  --t-bg: #07061a;
+  --t-bg-2: #120c33;
+  --t-primary: #ff2bd6;
+  --t-secondary: #22e4ff;
+  --t-accent: #ffd84a;
+  --t-ink: #f6f4ff;
+  --t-muted: #a9a4cc;
+  --t-font-display: "Unbounded", "Space Grotesk", system-ui, sans-serif;
+  --t-font-body: "Space Grotesk", system-ui, sans-serif;
+  --t-radius: 1.25rem;
+}
+
+/* ------------------------------------------------------------------
+   Concept 2 — MYTHOS: AGE OF LEGENDS
+------------------------------------------------------------------- */
+[data-theme="mythos"] {
+  --t-bg: #0b0807;
+  --t-bg-2: #1d130c;
+  --t-primary: #d9a94c;
+  --t-secondary: #b8262f;
+  --t-accent: #f4e4bd;
+  --t-ink: #f7efe2;
+  --t-muted: #ab9d88;
+  --t-font-display: "Cinzel", "Georgia", serif;
+  --t-font-body: "Lora", "Georgia", serif;
+  --t-radius: 0.5rem;
+}
+
+/* ------------------------------------------------------------------
+   Concept 3 — CARNIVALE ROYALE
+------------------------------------------------------------------- */
+[data-theme="carnival"] {
+  --t-bg: #1a0511;
+  --t-bg-2: #3b0b22;
+  --t-primary: #ffb21e;
+  --t-secondary: #ff4d6d;
+  --t-accent: #35e8c8;
+  --t-ink: #fff6e8;
+  --t-muted: #dcb7c2;
+  --t-font-display: "Bungee", "Impact", sans-serif;
+  --t-font-body: "Space Grotesk", system-ui, sans-serif;
+  --t-radius: 1rem;
+}
+
+
+
+/* ------------------------------------------------------------------
+   Base
+------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--t-bg);
+  color: var(--t-ink);
+  font-family: var(--t-font-body);
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.6s ease,
+    color 0.6s ease;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--t-primary);
+  color: var(--t-bg);
+}
+
+/* Radius token so cards feel different per concept */
+.r-card {
+  border-radius: var(--t-radius);
+}
+
+/* ------------------------------------------------------------------
+   Reveal on scroll
+------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------------------
+   Text + surface helpers
+------------------------------------------------------------------- */
+.text-stroke {
+  -webkit-text-stroke: 1.5px var(--t-ink);
+  color: transparent;
+}
+.text-stroke-primary {
+  -webkit-text-stroke: 1.5px var(--t-primary);
+  color: transparent;
+}
+.text-glow {
+  text-shadow:
+    0 0 22px color-mix(in srgb, var(--t-primary) 55%, transparent),
+    0 0 60px color-mix(in srgb, var(--t-secondary) 35%, transparent);
+}
+.text-gradient {
+  background: linear-gradient(100deg, var(--t-primary), var(--t-secondary) 55%, var(--t-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass {
+  background: color-mix(in srgb, var(--t-ink) 5%, transparent);
+  border: 1px solid color-mix(in srgb, var(--t-ink) 10%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.glass-strong {
+  background: color-mix(in srgb, var(--t-bg) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--t-ink) 12%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.ring-glow {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--t-primary) 40%, transparent),
+    0 0 40px color-mix(in srgb, var(--t-primary) 25%, transparent);
+}
+
+.noise {
+  position: relative;
+}
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Horizontal scroll tracks: edge padding that lines up with .Container
+   (px-5 / sm:px-8 / lg:px-10 + centered max-w-7xl) and keeps snap alignment */
+.track-pad {
+  --pad: 1.25rem;
+  padding-inline: var(--pad);
+  scroll-padding-inline: var(--pad);
+}
+@media (min-width: 640px) {
+  .track-pad {
+    --pad: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  .track-pad {
+    --pad: max(2.5rem, calc((100vw - 80rem) / 2 + 2.5rem));
+  }
+}
+
+/* ------------------------------------------------------------------
+   Hero wordmark — each concept renders the title differently
+------------------------------------------------------------------- */
+.wordmark {
+  color: var(--t-ink);
+  transition: text-shadow 0.6s ease, color 0.6s ease;
+}
+.wordmark-year {
+  color: var(--t-primary);
+}
+/* NOTE: never combine `filter` with background-clip:text on the same element —
+   Chrome composites the whole box as opaque and hides anything behind it. */
+[data-theme="neon"] .wordmark {
+  background: linear-gradient(180deg, var(--t-ink) 0%, var(--t-ink) 45%, var(--t-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-theme="neon"] .wordmark-year {
+  background: linear-gradient(180deg, var(--t-accent), var(--t-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+[data-theme="mythos"] .wordmark {
+  background: linear-gradient(180deg, var(--t-accent) 0%, var(--t-primary) 55%, #8a5a1c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.04em;
+}
+[data-theme="mythos"] .wordmark-year {
+  color: var(--t-secondary);
+  -webkit-text-fill-color: var(--t-secondary);
+}
+
+/* Soft dark halo behind hero copy so it stays legible over busy backdrops */
+.hero-shield {
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    var(--t-bg) 0%,
+    color-mix(in srgb, var(--t-bg) 85%, transparent) 40%,
+    transparent 72%
+  );
+}
+[data-theme="carnival"] .wordmark {
+  color: var(--t-primary);
+  text-shadow:
+    4px 4px 0 var(--t-secondary),
+    8px 8px 0 color-mix(in srgb, var(--t-bg) 80%, black),
+    0 0 40px color-mix(in srgb, var(--t-primary) 40%, transparent);
+}
+[data-theme="carnival"] .wordmark-year {
+  color: var(--t-accent);
+  text-shadow: 3px 3px 0 var(--t-secondary);
+}
+
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-fade-in {
+  animation: fade-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* ------------------------------------------------------------------
+   Concept-specific decorative pieces
+------------------------------------------------------------------- */
+/* Neon: perspective grid floor */
+.synth-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--t-secondary) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--t-primary) 45%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(520px) rotateX(62deg) scale(1.6);
+  transform-origin: 50% 0%;
+  animation: gridmove 2.2s linear infinite;
+  mask-image: linear-gradient(to bottom, transparent, black 25%, black 70%, transparent);
+}
+
+/* Neon: striped sun */
+.synth-sun {
+  background: linear-gradient(180deg, var(--t-accent) 0%, var(--t-primary) 55%, var(--t-secondary) 100%);
+  mask-image: repeating-linear-gradient(
+    to bottom,
+    black 0 14px,
+    transparent 14px 18px
+  );
+}
+
+/* ------------------------------------------------------------------
+   Ticket tag — replaces the generic rounded pill. A stub with punched
+   side notches, angled corner cuts and a perforation line per segment.
+------------------------------------------------------------------- */
+.ticket {
+  --notch: 6px;
+  position: relative;
+  background: color-mix(in srgb, var(--t-primary) 12%, color-mix(in srgb, var(--t-bg) 72%, transparent));
+  /* angled corner cuts (squoval-adjacent, but sharper = less generic) */
+  clip-path: polygon(
+    10px 0, calc(100% - 10px) 0, 100% 38%, 100% 62%, calc(100% - 10px) 100%,
+    10px 100%, 0 62%, 0 38%
+  );
+  /* punched notches on both sides */
+  mask-image:
+    radial-gradient(circle var(--notch) at 0 50%, transparent calc(var(--notch) - 0.5px), black var(--notch)),
+    radial-gradient(circle var(--notch) at 100% 50%, transparent calc(var(--notch) - 0.5px), black var(--notch));
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-primary) 45%, transparent);
+}
+.ticket::after {
+  /* inner hairline for the printed-ticket feel */
+  content: "";
+  position: absolute;
+  inset: 3px;
+  pointer-events: none;
+  border: 1px dashed color-mix(in srgb, var(--t-primary) 35%, transparent);
+  clip-path: inherit;
+}
+.ticket-divider {
+  width: 1px;
+  align-self: stretch;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--t-primary) 55%, transparent) 0 3px,
+    transparent 3px 6px
+  );
+}
+
+/* Scroll-driven sun: swells and climbs as --scroll goes 0 → 1 across the hero */
+.sun-rise {
+  transform: translate3d(-50%, calc(var(--scroll, 0) * -22vh), 0) scale(calc(1 + var(--scroll, 0) * 1.45));
+}
+.sun-glow {
+  opacity: calc(0.45 + var(--scroll, 0) * 0.55);
+}
+/* Same gesture for the other two concepts' central motifs */
+.motif-rise {
+  transform: translate(-50%, -50%) scale(calc(1 + var(--scroll, 0) * 0.45));
+}
+
+/* Scanlines */
+.scanlines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 3px,
+    color-mix(in srgb, var(--t-bg) 50%, transparent) 3px 4px
+  );
+  opacity: 0.35;
+}
+
+/* Mythos: ornamental double border */
+.ornate {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--t-primary) 45%, transparent);
+}
+.ornate::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid color-mix(in srgb, var(--t-primary) 25%, transparent);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Carnival: sunburst */
+.sunburst {
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    color-mix(in srgb, var(--t-primary) 16%, transparent) 0deg 9deg,
+    transparent 9deg 18deg
+  );
+  mask-image: radial-gradient(circle at 50% 50%, black 0%, black 35%, transparent 75%);
+}
+
+/* Carnival: awning stripes */
+.stripes {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--t-secondary) 0 28px,
+    var(--t-ink) 28px 56px
+  );
+}
+
+
+
+/* ------------------------------------------------------------------
+   Keyframes
+------------------------------------------------------------------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(2deg); }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+@keyframes ember {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-70vh) translateX(var(--drift, 20px)) scale(0.2); opacity: 0; }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+@keyframes gridmove {
+  from { background-position: 0 0; }
+  to { background-position: 0 64px; }
+}
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+@keyframes confetti {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+@keyframes ticker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
